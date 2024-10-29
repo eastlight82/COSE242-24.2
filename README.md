@@ -4,12 +4,10 @@
 Building a **Local Live Streaming** System Using **Raspberry Pi**
 
 
-
 ### Process
 1. Capture **video** from a camera connected to the Raspberry Pi
 2. Process the video feed in real-time
 3. Stream it over a **local network**
-
 
 
 ### Objective
@@ -17,7 +15,6 @@ To build a local live streaming system using the Raspberry Pi as a cost-effectiv
 To utilize the V4L2C packages to interact with video devices, enabling real-time video capture and processing.
 To implement a streaming server on the Raspberry Pi that distributes the live video feed to devices connected to the same local network.
 To ensure the system operates with minimal latency and maintains a stable video quality suitable for real-time applications.
-
 
 
 ### Technical Approach
@@ -42,13 +39,11 @@ Client Devices: Test video streaming on various client devices (e.g., laptops) c
 Analyze Data & Application : With obtained streaming video, analyze the packet and implement a object tracker using YOLO.
 
 
-
 #### Expected Outcomes
 By the end of this project, the following outcomes are anticipated:
 A fully functional local live streaming system that can broadcast video captured by the Raspberry Pi camera over a local network.
 Documentation on the system configuration, including steps for setting up V4L2C and streaming services.
 Performance analysis report detailing the system’s latency, video quality, and network bandwidth usage.
-
 
 
 #### Conclusion
