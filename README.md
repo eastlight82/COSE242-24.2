@@ -39,13 +39,13 @@ Client Devices: Test video streaming on various client devices (e.g., laptops) c
 Analyze Data & Application : With obtained streaming video, analyze the packet and implement a object tracker using YOLO.
 
 
-#### Expected Outcomes
+### Expected Outcomes
 By the end of this project, the following outcomes are anticipated:
 A fully functional local live streaming system that can broadcast video captured by the Raspberry Pi camera over a local network.
 Documentation on the system configuration, including steps for setting up V4L2C and streaming services.
 Performance analysis report detailing the system’s latency, video quality, and network bandwidth usage.
 
 
-#### Conclusion
+### Conclusion
 This project will demonstrate a practical application of data communication principles through the design of a local live streaming system using Raspberry Pi. It will provide a cost-effective and accessible solution for real-time video streaming, with potential use cases in surveillance, live events, and remote monitoring.
 The proposed system not only showcases the capabilities of the Raspberry Pi in handling video communication tasks but also explores the use of V4L2C for efficient video device control. The outcome will contribute to practical knowledge in building streaming solutions and understanding the challenges of low-latency video transmission in local network.
