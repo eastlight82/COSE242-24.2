@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from ultralytics import YOLO
 
-# Load custom YOLOv5 model
+# Load custom YOLOv11 model
 model = YOLO('yolo11n.pt')
 
 # Set up GStreamer pipeline
