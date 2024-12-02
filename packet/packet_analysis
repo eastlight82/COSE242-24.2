@@ -1,0 +1,93 @@
+Frame 2: 83 bytes on wire (664 bits), 83 bytes captured (664 bits) on interface wlp0s20f3, id 0
+    Section number: 1
+    Interface id: 0 (wlp0s20f3)
+        Interface name: wlp0s20f3
+    Encapsulation type: Ethernet (1)
+    Arrival Time: Dec  2, 2024 15:26:17.847837123 대한민국 표준시
+    UTC Arrival Time: Dec  2, 2024 06:26:17.847837123 UTC
+    Epoch Arrival Time: 1733120777.847837123
+    [Time shift for this packet: 0.000000000 seconds]
+    [Time delta from previous captured frame: 0.002092338 seconds]
+    [Time delta from previous displayed frame: 0.002092338 seconds]
+    [Time since reference or first frame: 0.002092338 seconds]
+    Frame Number: 2
+    Frame Length: 83 bytes (664 bits)
+    Capture Length: 83 bytes (664 bits)
+    [Frame is marked: False]
+    [Frame is ignored: False]
+    [Protocols in frame: eth:ethertype:ip:udp:data]
+    [Coloring Rule Name: UDP]
+    [Coloring Rule String: udp]
+Ethernet II, Src: BestITWorld_50:23:5c (a0:47:d7:50:23:5c), Dst: Intel_ee:22:a3 (bc:03:58:ee:22:a3)
+    Destination: Intel_ee:22:a3 (bc:03:58:ee:22:a3)
+    Source: BestITWorld_50:23:5c (a0:47:d7:50:23:5c)
+    Type: IPv4 (0x0800)
+    [Stream index: 0]
+Internet Protocol Version 4, Src: 10.42.0.1, Dst: 10.42.0.33
+    0100 .... = Version: 4
+    .... 0101 = Header Length: 20 bytes (5)
+    Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)
+    Total Length: 69
+    Identification: 0x6b65 (27493)
+    010. .... = Flags: 0x2, Don't fragment
+    ...0 0000 0000 0000 = Fragment Offset: 0
+    Time to Live: 64
+    Protocol: UDP (17)
+    Header Checksum: 0xbacd [validation disabled]
+    [Header checksum status: Unverified]
+    Source Address: 10.42.0.1
+    Destination Address: 10.42.0.33
+    [Stream index: 0]
+User Datagram Protocol, Src Port: 52765, Dst Port: 5000
+    Source Port: 52765
+    Destination Port: 5000
+    Length: 49
+    Checksum: 0xa39e [unverified]
+    [Checksum Status: Unverified]
+    [Stream index: 0]
+    [Stream Packet Number: 2]
+    [Timestamps]
+        [Time since first frame: 0.002092338 seconds]
+        [Time since previous frame: 0.002092338 seconds]
+    UDP payload (41 bytes)
+Data (41 bytes)
+    Data: 806044b41d3602ab221052ac6764001facb402802dd80b7020206a5000000300100000030328f1832a
+    [Length: 41]
+
+0000   bc 03 58 ee 22 a3 a0 47 d7 50 23 5c 08 00 45 00   ..X."..G.P#\..E.
+0010   00 45 6b 65 40 00 40 11 ba cd 0a 2a 00 01 0a 2a   .Eke@.@....*...*
+0020   00 21 ce 1d 13 88 00 31 a3 9e 80 60 44 b4 1d 36   .!.....1...`D..6
+0030   02 ab 22 10 52 ac 67 64 00 1f ac b4 02 80 2d d8   ..".R.gd......-.
+0040   0b 70 20 20 6a 50 00 00 03 00 10 00 00 03 03 28   .p  jP.........(
+0050   f1 83 2a                                          ..*
+
+[ Eternet 헤더 ]
+bc 03 58 ee 22 a3: Destination: Intel_ee:22:a3 (bc:03:58:ee:22:a3)
+a0 47 d7 50 23 5c: Source: BestITWorld_50:23:5c (a0:47:d7:50:23:5c)
+08 00: Type: IPv4 (0x0800)
+
+[IP 헤더]
+45: Ip version 4, header length 20 bytes(5)
+
+00:  Differentiated Services Field: 0x00 (DSCP: CS0, ECN: Not-ECT)
+
+00 45: Total Length: 69 (0x45)
+6b 65: Identification: 0x6b65 (27493)
+04 00:     010. .... = Flags: 0x2, Don't fragment     ...0 0000 0000 0000 = Fragment Offset: 0
+40: Time to live: 64
+11: Protocol: UDP (17)
+ba cd: Header Checksum
+0a 2a 00 01: Source Address: 10.42.0.1
+0a 2a 00 21: Destination Address: 10.42.0.33
+ce 1d: Source Port: 52765
+13 88: Destination Port: 5000
+
+[UDP 헤더]
+00 31: Length: 49
+a3 9e: Checksum: 0xa39e
+
+[하위 41byte: RTP 패킷에 담긴 데이터]
+806044b41d3602ab221052ac6764001facb402802dd80b7020206a5000000300100000030328f1832a: data(length:41)
+
+80 60 -> 1000 0000 0110 0000 (binary)
+10: 현재 RTP version: 2
