@@ -1,1 +1,80 @@
-qwer
+Gstreamer
+
+i) 송신기 측 (라즈베리 파이)
+gst-launch-1.0 v4l2src device=/dev/video0 ! image/jpeg, width=1280, height=720, framerate=25/1 ! jpegdec ! videoconvert ! x264enc tune=zerolatency bitrate=500 speed-preset=superfast ! rtph264pay ! udpsink host=<수신기_IP> port=5000
+
+1. gst-launch-1.0: Gstreamer 파이프라인 실행, 뒤의 나열된 요소들을 연결하여 미디어 데이터를 처리
+
+2. v4l2src device=/dev/video0 
+
+-v4l2src: Video4Linux2(Video for Linux) 소스 요소, 카메라에서 데이터를 읽어옴
+-device=/dev/video0: 카메라 장치 파일을 지정, /dev/video0는 기본 첫 번째 비디오 장치를 의미
+
+3. image/jpeg, width=1280, height=720, framerate=25/1
+
+-image/jpeg: 입력 스트림이 jpeg 압축 형식의 이미지를 포함한다고 명시
+- width=1280, height=720: 출력 해상도 1280x720
+- framerate=25/1: 25 frame/s 속도 설정 
+
+4. jpegdec: JPEG 디코더 요소, 입력된 JPEG 압축 데이터를 비디오 데이터(raw)로 디코딩
+
+5. videoconvert: 비디오 데이터의 색 공간 및 픽셀 포맷 변환 수행, JPEG 디코딩 후 생성된 데이터를 다음 요소가 처리할 수 있도록 변환
+
+6. x264enc tune=zerolatency bitrate=500 speed-preset=superfast
+- x264enc: 비디오 압축 방식인 중 하나인 h264 형식으로 인코딩
+- tune=zerolatency: 낮은 latency 최적화, 실시간 스트리밍 환경에 적합
+- bitrate=500: 비디오 bitrate 500kbps 설정, 네트워크 대역폭 절약 + 품질 유지
+- speed-preset=superfast: 인코딩 속도 빠르게 (품질 일부 희생) 설정, 실시간 전송 우선
+
+7. rtph264pay: h264 형식의 비디오를 RTP 패킷으로 인코딩
+// RTP: real time protocol, 오디오와 비디오의 실시간 전송을 위한 프로토콜, RTP 패킷은 application layer에서 만들어짐
+
+8. udpsink host=<수신기_IP> port=5000
+-udpsink: UDP 패킷을 네트워크로 보내는 sink
+-host=<수신기_IP>: 수신기 IP 지정
+-port=5000: 사용할 UDP포트 지정
+
+
+송신 측 명령어 동작 요약
+소스: /dev/video0 장치에서 JPEG 압축 비디오 데이터를 읽음
+디코딩: JPEG 데이터를 디코딩 (jpegdec)
+변환: 디코딩 후 생성된 데이터를 인코더에서 처리할 수 있도록 변환(videoconvert)
+인코딩: 비디오 데이터를 H.264형식으로 인코딩(x264enc)
+패킷화: RTP 형식으로 패킷화 (rtph264pay)
+전송: 지정된 IP와 포트로 UDP통해 데이터 송출 (udpsink)
+
+https://gstreamer.freedesktop.org/documentation/plugins_doc.html?gi-language=c
+
+ii) 수신기 측 	
+gst-launch-1.0 udpsrc port=5000 caps="application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96" ! rtph264depay ! h264parse ! tee name=t t. ! queue ! mp4mux ! filesink location=output.mp4 t. ! queue ! avdec_h264 ! videoconvert ! autovideosink
+
+1. gst-launch-1.0: gstreamer 파이프라인 실행 
+
+2. udpsrc port=5000
+- udpsrc: UDP 소스 요소, 네트워크를 통해 포트로 들어오는 데이터 수신
+- port=5000: 수신 UDP포트 지정 (송신과 동일)
+
+3. caps="application/x-rtp, media=video, clock-rate=90000, encoding-name=H264, payload=96": RTP데이터 캡슐화 정보 정의
+- application/x-rtp: 데이터가 RTP패킷임을 명시
+- media=video: 미디어타입이 비디오임을 정의
+- clock-rate=90000: RTP 스트림의 타임스탬프 단위(Hz)
+- encoding-name=H264: H.264 비디오 코덱(인코딩 형식) 사용
+- payload=96: RTP 패킷에 대한 페이로드 유형 // 고정 페이로드 타입은 RTP 표준에 따라 정의 ex) 26: JPEG, 동적 페이로드 타입의 경우 사용자 정의, H.264 스트림은 일반적으로 96 사용
+
+4. rtph264depay: RTP 패킷에서 H.264 스트림을 추출(depayload), RTP헤더 제거 후 순수 H.264데이터로 변환
+
+5. h264parse: H.264 데이터 parser를 이용해 스트림을 분석하고 정리
+
+6. tee name=t: tee는 데이터 분기 요소, tee 요소 이름을 t로 저장, H.264스트림 데이터를 MP4 파일 저장 경로와 화면 출력 경로로 나눔
+
+7. MP4파일 저장 경로
+-queue: 독립적인 데이터 처리를 위한 buffer
+-mp4mux: H.264 데이터를 mp4 컨테이너 형식으로 캡슐화
+-filesink location=output.mp4: MP4파일로 저장, 이름=output.mp4
+
+8. 화면 출력 경로 
+-queue: 독립적인 데이터 처리를 위한 buffer
+-avdec_h264: H.264 스트림을 디코딩 
+-videoconvert: 비디오 데이터를 화면 출력에 적합한 색상 및 포맷으로 변환
+-autovideosink: 디코딩된 비디오 데이터 화면에 출력
+
